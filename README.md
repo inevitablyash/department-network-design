@@ -1,121 +1,272 @@
 # Department Network Design — Cisco Packet Tracer
 
-A beginner networking project that connects the **Accounts** and **Delivery** departments using IPv4 subnetting, Ethernet switches, and a router. The topology is built and tested in Cisco Packet Tracer, with a focus on understanding how separate departmental subnets communicate through a Layer 3 device.
+A networking fundamentals project demonstrating IPv4 subnetting, network topology design, and interdepartmental communication using Cisco Packet Tracer.
+
+This project connects two departments—**Accounts** and **Delivery**—through a router, allowing devices on separate subnets to communicate. It provides practical experience with IP addressing, subnet masks, default gateways, network devices, and connectivity verification.
 
 ## Problem Statement
 
-Design a network in Cisco Packet Tracer that connects the Accounts and Delivery departments using the network address `192.168.40.0`. Each department must contain at least two PCs. Select an appropriate number of switches and routers, assign suitable IP addresses, subnet masks, and default gateways to the network interfaces, and connect the devices using appropriate cables. Verify that PCs in the two departments can communicate, including successful ping tests between departments.
+Design and implement a network in Cisco Packet Tracer to connect the Accounts and Delivery departments using the network address `192.168.40.0`.
+
+Each department must contain at least two PCs. An appropriate number of switches and routers must be used to establish connectivity between the devices.
+
+The network must meet the following requirements:
+
+- Divide the provided network into separate subnets for the two departments.
+- Configure appropriate IP addresses and subnet masks for all network interfaces.
+- Configure the correct default gateways for end devices.
+- Connect all devices using appropriate network cables.
+- Establish communication between the Accounts and Delivery departments.
+- Verify connectivity between PCs using the `ping` command.
 
 ## Project Objectives
 
-- Divide the provided IPv4 network into separate subnets for the two departments.
-- Build a departmental network topology using PCs, switches, and a router.
-- Configure IP addressing, subnet masks, and default gateways.
-- Connect end devices and network equipment using appropriate links.
-- Verify interdepartmental connectivity with the `ping` command.
+- Understand IPv4 addressing and subnetting.
+- Divide a network into two departmental subnets.
+- Design a network topology using routers, switches, PCs, and printers.
+- Configure IP addresses, subnet masks, and default gateways.
+- Understand how routers facilitate communication between different networks.
+- Test connectivity and interpret ping results.
 
-## Topology
+## Network Topology
 
-The network contains two departmental LANs connected through a Cisco 1941 router. Each LAN has a Cisco 2960 switch, two PCs, and a printer.
+The network consists of two departmental LANs connected through a Cisco 1941 router.
 
-![Cisco Packet Tracer network topology showing the Accounts and Delivery departments connected through a router](Screenshot 2026-10-16 at 12.43.58.png)
+Each department contains:
+- One Cisco 2960 switch
+- Two PCs
+- One network printer
+
+The router connects the two departmental networks and enables communication between devices belonging to different subnets.
+
+### Network Design
+
+![Cisco Packet Tracer network topology showing the Accounts and Delivery departments connected through a router](Screenshot%202026-10-16%20at%2012.43.58.png)
 
 ### Devices Used
 
 | Device | Quantity | Purpose |
 |---|---:|---|
-| Cisco 1941 router | 1 | Routes traffic between the two departmental subnets |
-| Cisco 2960 switches | 2 | Connect each department's local devices |
-| PCs | 4 | Endpoints used to test network connectivity |
-| Printers | 2 | Networked peripheral devices, one per department |
+| Cisco 1941 Router | 1 | Routes traffic between the two departmental networks |
+| Cisco 2960 Switch | 2 | Connects devices within each department |
+| PCs | 4 | End devices used to test network connectivity |
+| Printers | 2 | Network peripherals connected to the departmental LANs |
 
 ## IPv4 Subnetting
 
-### Given Network
+### Given Network Information
 
-- **Network address:** `192.168.40.0`
-- **Original network prefix:** `/24`
-- **Original subnet mask:** `255.255.255.0`
-- **Required subnets:** 2 — one for Accounts and one for Delivery
+| Parameter | Value |
+|---|---|
+| Network Address | `192.168.40.0` |
+| Original Prefix | `/24` |
+| Original Subnet Mask | `255.255.255.0` |
+| Number of Departments | 2 |
+| Required Subnets | 2 |
 
 ### Subnet Calculation
 
-The original `/24` network has 8 host bits in the final octet. To create at least two subnets, borrow one host bit for the network portion:
+The given network is `192.168.40.0/24`, which provides 256 total IP addresses.
 
-- Number of subnets created: \(2^1 = 2\)
-- New prefix length: `/25`
-- New subnet mask: `255.255.255.128`
-- Block size in the final octet: `256 - 128 = 128`
-- Addresses per subnet: 128
-- Usable host addresses per subnet: 126 (excluding the network and broadcast addresses)
+Since the network must be divided into two departments, two separate subnets are required.
 
-The `/25` mask splits the original `192.168.40.0/24` network into two equal-sized subnets.
+The number of subnets created by borrowing host bits is calculated using:
+
+\[
+\text{Number of Subnets} = 2^n
+\]
+
+Where `n` represents the number of bits borrowed from the host portion.
+
+For two subnets:
+
+\[
+2^1 = 2
+\]
+
+Therefore, **one bit is borrowed from the host portion** to create two subnets.
+
+The original `/24` prefix becomes `/25`.
+
+### New Subnet Mask
+
+The resulting subnet mask is:
+
+`255.255.255.128`
+
+In binary, the subnet mask is:
+
+`11111111.11111111.11111111.10000000`
+
+The block size is calculated as:
+
+\[
+\text{Block Size} = 256 - 128 = 128
+\]
+
+Each subnet contains 128 total IP addresses, of which 126 are available for host assignment.
 
 ### Subnet Addressing Table
+
+The original network is divided into the following two subnets.
 
 | Parameter | Accounts Department | Delivery Department |
 |---|---|---|
 | Network ID | `192.168.40.0/25` | `192.168.40.128/25` |
-| Subnet mask | `255.255.255.128` | `255.255.255.128` |
-| First usable address | `192.168.40.1` | `192.168.40.129` |
-| Last usable address | `192.168.40.126` | `192.168.40.254` |
-| Broadcast address | `192.168.40.127` | `192.168.40.255` |
-| Usable host range | `192.168.40.1–192.168.40.126` | `192.168.40.129–192.168.40.254` |
+| Subnet Mask | `255.255.255.128` | `255.255.255.128` |
+| First Usable IP | `192.168.40.1` | `192.168.40.129` |
+| Last Usable IP | `192.168.40.126` | `192.168.40.254` |
+| Broadcast Address | `192.168.40.127` | `192.168.40.255` |
+| Total Addresses | 128 | 128 |
+| Usable Host Addresses | 126 | 126 |
 
-> **Addressing note:** The table shows the available ranges for each subnet, not a complete device-by-device IP assignment. Configure each PC, printer, and router interface with a unique usable address in its department's subnet. Set each end device's default gateway to the IP address of the router interface serving that subnet. Do not assign a subnet's network ID or broadcast address to a device.
+### Subnet Allocation
 
-## Implementation Overview
+**Subnet 1 — Accounts Department**
 
-1. **Create the topology:** Place one Cisco 1941 router, two Cisco 2960 switches, four PCs, and two printers in Cisco Packet Tracer.
-2. **Build the departmental LANs:** Connect the two PCs and printer in each department to that department's switch.
-3. **Connect the router:** Connect each departmental switch to a separate router interface using an appropriate Ethernet cable.
-4. **Configure IPv4 addressing:** Assign unique addresses and the `/25` subnet mask to end devices and router interfaces.
-5. **Configure default gateways:** Set each end device's gateway to the router interface address in its own subnet.
-6. **Verify connectivity:** Use `ping` from a PC in one department to a reachable host in the other department.
+- Network ID: `192.168.40.0`
+- Subnet Mask: `255.255.255.128`
+- Usable Host Range: `192.168.40.1 – 192.168.40.126`
+- Broadcast Address: `192.168.40.127`
 
-The screenshots document the topology and a successful ping test. Exact interface addresses and command-line configuration are not listed here because a complete device-by-device addressing table was not provided.
+**Subnet 2 — Delivery Department**
+
+- Network ID: `192.168.40.128`
+- Subnet Mask: `255.255.255.128`
+- Usable Host Range: `192.168.40.129 – 192.168.40.254`
+- Broadcast Address: `192.168.40.255`
+
+Each department uses its own subnet, while the router provides the Layer 3 connectivity required for communication between them.
+
+> **Note:** The addresses above represent the available subnet ranges. Each PC, printer, and router interface must be assigned a unique usable IP address. End devices must use the IP address of their local router interface as their default gateway.
+
+## Implementation
+
+The network was designed and tested using Cisco Packet Tracer.
+
+### 1. Network Topology Setup
+
+The following devices were added to the workspace:
+
+- One Cisco 1941 router
+- Two Cisco 2960 switches
+- Four PCs
+- Two printers
+
+The devices were arranged into two departmental networks: Accounts and Delivery.
+
+### 2. Device Connectivity
+
+Each department's PCs and printer were connected to its respective switch.
+
+The two switches were connected to separate interfaces on the router, allowing the router to forward traffic between the departmental subnets.
+
+Appropriate Ethernet connections were used to establish connectivity between the devices.
+
+### 3. IP Addressing
+
+The network was divided into two `/25` subnets using the subnet mask:
+
+`255.255.255.128`
+
+Devices in the Accounts department use addresses from:
+
+`192.168.40.0/25`
+
+Devices in the Delivery department use addresses from:
+
+`192.168.40.128/25`
+
+Each device must have a unique IP address within its subnet.
+
+### 4. Default Gateway Configuration
+
+The default gateway on each end device must point to the router interface belonging to its respective subnet.
+
+This allows devices to forward traffic destined for a different subnet to the router.
+
+### 5. Connectivity Testing
+
+The `ping` command was used to test connectivity between devices on different departmental networks.
+
+A PC in the Accounts department was used to ping the destination address:
+
+`192.168.40.130`
+
+This address belongs to the Delivery subnet.
 
 ## Connectivity Verification
 
-The test screenshot shows PC0 pinging `192.168.40.130`, an address in the Delivery subnet (`192.168.40.128/25`).
+The following screenshot shows the ping test performed from PC0 to `192.168.40.130`.
 
-![Cisco Packet Tracer command prompt showing a successful ping to 192.168.40.130](Screenshot 2026-10-16 at 12.44.07.png)
+![Cisco Packet Tracer command prompt showing ping results for 192.168.40.130](Screenshot%202026-10-16%20at%2012.44.07.png)
 
-The first ping attempt shows **3 replies out of 4 packets** (25% packet loss). A second ping test shows **4 replies out of 4 packets** (0% packet loss), demonstrating successful IP connectivity to the destination during the second test.
+### Test Results
 
-The initial missed reply can occur while a device resolves the destination's Layer 2 address using ARP. The screenshot is consistent with that behavior, although it does not independently prove the cause of the first timeout.
+The initial ping attempt produced the following results:
+
+- Packets sent: 4
+- Packets received: 3
+- Packets lost: 1
+- Packet loss: 25%
+
+A second ping attempt produced:
+
+- Packets sent: 4
+- Packets received: 4
+- Packets lost: 0
+- Packet loss: 0%
+
+### Analysis
+
+The second ping test achieved **100% successful packet delivery**, demonstrating IP connectivity between the source PC and the destination address.
+
+The initial packet loss may occur when Address Resolution Protocol (ARP) resolves a destination's Layer 2 address or when network connectivity is being established. However, the screenshot alone does not confirm the exact cause of the initial timeout.
+
+The successful second test provides evidence that the destination was reachable during that test.
 
 ## Skills Practiced
 
-- IPv4 addressing and subnetting
-- CIDR notation and subnet masks
-- Network topology design in Cisco Packet Tracer
-- Basic router and switch connectivity
-- Default gateway configuration
-- Troubleshooting with `ping` and interpreting packet-loss statistics
+Through this project, I gained practical experience with:
 
-## Tools
+- **IPv4 Addressing:** Understanding network addresses, host addresses, and broadcast addresses.
+- **Subnetting:** Dividing a `/24` network into two `/25` subnets.
+- **CIDR Notation:** Understanding prefix lengths and their relationship to subnet masks.
+- **Network Topology Design:** Building a departmental network in Cisco Packet Tracer.
+- **Routing Fundamentals:** Understanding how a router enables communication between different IP networks.
+- **IP Configuration:** Working with IP addresses, subnet masks, and default gateways.
+- **Connectivity Testing:** Using ICMP ping to verify communication and interpret packet-loss statistics.
+- **Basic Troubleshooting:** Observing connectivity test results and considering possible causes of initial packet loss.
 
-- **Cisco Packet Tracer**
-- **IPv4 networking**
-- **ICMP ping testing**
+## Tools and Technologies
 
-## Repository Contents
+- Cisco Packet Tracer
+- IPv4
+- Subnetting and CIDR
+- Ethernet switching
+- IP routing
+- ICMP
+- ARP
+
+## Repository Structure
 
 ```text
-.
+department-network-design/
 ├── README.md
-└── images/
-    ├── network-topology.jpg
-    └── ping-verification.jpg
+├── Screenshot 2026-10-16 at 12.43.58.png
+└── Screenshot 2026-10-16 at 12.44.07.png
 ```
 
-## How to Open the Project
+The screenshots document the network topology and connectivity test.
 
-Open the Cisco Packet Tracer `.pkt` file associated with this project in Cisco Packet Tracer. The screenshots in this repository provide visual documentation of the topology and connectivity test.
-
-> **For the repository:** Add your actual `.pkt` file alongside this README if you want visitors to be able to open and inspect the simulated network. The screenshots alone do not contain the editable Packet Tracer project.
+For a reproducible project, the Cisco Packet Tracer `.pkt` file can also be added to the repository so that others can open the simulation and inspect the configuration.
 
 ## Learning Outcome
 
-This project demonstrates how to split a `/24` IPv4 network into two `/25` departmental networks and use a router to enable communication between them. It also provides practice with basic network construction, host addressing, default gateways, and connectivity verification.
+This project demonstrates the application of IPv4 subnetting to a small departmental network.
+
+By dividing `192.168.40.0/24` into two `/25` subnets, the Accounts and Delivery departments can operate on separate IP networks while communicating through a router.
+
+The project provides a foundation in network addressing, subnet design, routing concepts, device connectivity, and basic network troubleshooting.
+
+These networking fundamentals are important building blocks for further study in cybersecurity, network security, and infrastructure administration.

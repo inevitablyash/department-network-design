@@ -18,7 +18,7 @@ Design a network in Cisco Packet Tracer that connects the Accounts and Delivery 
 
 The network contains two departmental LANs connected through a Cisco 1941 router. Each LAN has a Cisco 2960 switch, two PCs, and a printer.
 
-![Cisco Packet Tracer network topology showing the Accounts and Delivery departments connected through a router](images/network-topology.jpg)
+![Cisco Packet Tracer network topology showing the Accounts and Delivery departments connected through a router](Screenshot 2026-10-16 at 12.43.58.png)
 
 ### Devices Used
 
@@ -79,7 +79,7 @@ The screenshots document the topology and a successful ping test. Exact interfac
 
 The test screenshot shows PC0 pinging `192.168.40.130`, an address in the Delivery subnet (`192.168.40.128/25`).
 
-![Cisco Packet Tracer command prompt showing a successful ping to 192.168.40.130](images/ping-verification.jpg)
+![Cisco Packet Tracer command prompt showing a successful ping to 192.168.40.130](Screenshot 2026-10-16 at 12.44.07.png)
 
 The first ping attempt shows **3 replies out of 4 packets** (25% packet loss). A second ping test shows **4 replies out of 4 packets** (0% packet loss), demonstrating successful IP connectivity to the destination during the second test.
 
